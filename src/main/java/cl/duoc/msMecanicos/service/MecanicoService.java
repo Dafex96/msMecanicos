@@ -3,6 +3,8 @@ package cl.duoc.msMecanicos.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import cl.duoc.msMecanicos.dto.MecanicoDTO;
 import cl.duoc.msMecanicos.model.Mecanico;
 import cl.duoc.msMecanicos.repository.MecanicoRepository;
 
@@ -41,18 +43,8 @@ public class MecanicoService {
         repo.deleteById(id);
     }
 
-    public List<Mecanico> obtenerMecanicosDisponibles() {
-        List<Mecanico> disponibles = repo.findByDisponibleTrue();
-
-        if (disponibles.isEmpty()) {
-            throw new RuntimeException("No hay mecánicos disponibles en este momento.");
-        }
-        return disponibles;
-    }
-
-    public Mecanico cambiarDisponibilidad(Integer id, boolean nuevoEstado) {
-        Mecanico mecanico = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("Mecánico no encontrado"));
-        mecanico.setDisponiblilidad(nuevoEstado);
-        return repo.save(mecanico);
+    public MecanicoDTO buscarMecanicoDTOPorId(Integer id) {
+        Mecanico mecanico = buscarPorId(id);
+        return new MecanicoDTO(mecanico.getId(), mecanico.getNombre(), mecanico.getEspecialidad().getNombre());
     }
 }

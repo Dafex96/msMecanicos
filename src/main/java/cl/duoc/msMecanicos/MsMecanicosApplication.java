@@ -8,6 +8,7 @@ public class MsMecanicosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MsMecanicosApplication.class, args);
+		System.out.println("Running...");
 	}
 
 }

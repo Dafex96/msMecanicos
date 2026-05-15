@@ -4,8 +4,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import cl.duoc.msMecanicos.dto.MecanicoDTO;
 import cl.duoc.msMecanicos.model.Mecanico;
 import cl.duoc.msMecanicos.service.MecanicoService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,24 +44,33 @@ public class MecanicoController {
         }
     }
 
+    @GetMapping("/dto/{id}")
+    public ResponseEntity<MecanicoDTO> obtenerMecanicoDTOPorId(@PathVariable Integer id){
+        try {
+            MecanicoDTO mecanicoDTO = service.buscarMecanicoDTOPorId(id);
+            return ResponseEntity.ok(mecanicoDTO);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/rut/{rut}")
     public ResponseEntity<Mecanico> obtenerPorRut(@PathVariable String rut){
         try {
-            Mecanico mecanico = service.buscarPorRut(rut);
-            return ResponseEntity.ok(mecanico);
+            return ResponseEntity.ok(service.buscarPorRut(rut));
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Mecanico> guardar(@RequestBody Mecanico mecanico){
+    public ResponseEntity<Mecanico> guardarMecanico(@RequestBody Mecanico mecanico){
         Mecanico nuevoMecanico = service.guardarMecanico(mecanico);
         return ResponseEntity.ok(nuevoMecanico);
     }
 
-    @PutMapping("path/{id}")
-    public ResponseEntity<Mecanico> actualizar(@PathVariable Integer id, @RequestBody Mecanico mecanico) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Mecanico> actualizarMecanico(@PathVariable Integer id, @RequestBody Mecanico mecanico) {
         try {
             Mecanico mecanicoActualizado = service.actualizarMecanico(id, mecanico);
             return ResponseEntity.ok(mecanicoActualizado);
@@ -70,30 +80,10 @@ public class MecanicoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
+    public ResponseEntity<Void> eliminarMecanico(@PathVariable Integer id) {
         try {
             service.eliminarMecanico(id);
             return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @GetMapping("/api/v1/mecanicos/disponibles")
-    public ResponseEntity<List<Mecanico>> obtenerDisponibles() {
-        try {
-            List<Mecanico> disponibles = service.obtenerMecanicosDisponibles();
-            return ResponseEntity.ok(disponibles);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/{idMecanico}/disponibilidad")
-    public ResponseEntity<Mecanico> cambiarDisponibilidad(@PathVariable Integer id, @RequestParam boolean estado){
-        try {
-            Mecanico mecanicoActualizado = service.cambiarDisponibilidad(id, estado);
-            return ResponseEntity.ok(mecanicoActualizado);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

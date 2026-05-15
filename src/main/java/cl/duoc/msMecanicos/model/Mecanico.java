@@ -35,9 +35,6 @@ public class Mecanico {
     @Column(nullable = false)
     private String telefono;
 
-    @Column(nullable = false)
-    private boolean disponiblilidad;
-
     @ManyToOne
     @JoinColumn(name = "id_especialidad")
     private Especialidad especialidad;
