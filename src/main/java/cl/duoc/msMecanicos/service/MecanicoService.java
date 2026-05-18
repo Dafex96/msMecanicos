@@ -45,6 +45,6 @@ public class MecanicoService {
 
     public MecanicoDTO buscarMecanicoDTOPorId(Integer id) {
         Mecanico mecanico = buscarPorId(id);
-        return new MecanicoDTO(mecanico.getId(), mecanico.getNombre(), mecanico.getEspecialidad().getNombre());
+        return new MecanicoDTO(mecanico.getId(), mecanico.getNombre() +" "+ mecanico.getApellido());
     }
 }

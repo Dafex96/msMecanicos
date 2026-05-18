@@ -11,6 +11,4 @@ public class MecanicoDTO {
 
     private Integer id;
     private String nombre;
-    private String especialidad;
-    
 }
